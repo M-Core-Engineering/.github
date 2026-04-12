@@ -1,61 +1,78 @@
-# 🛡️ M-Core Engineering | Governance & Standards
+# 🛡️ M-CORE Engineering | Governance & Standards
 
-Bienvenue dans l'organisation **M-Core Engineering**. Ce dépôt centralise les standards, les règles de gouvernance et les processus de cycle de vie (SDLC) applicables à l'ensemble de l'écosystème M-CORE.
+**Le socle de rigueur industrielle pour l'écosystème M-CORE.** *Définition des processus, standards de qualité et protocoles de cycle de vie (SDLC).*
+
+-----
 
 ## 🎯 Vision & Mission
 
-**M-CORE** (Mobile-first Continuity & Offline Rendering Engine) a pour mission de briser la dépendance aux infrastructures fixes en permettant une production technique de haute qualité (Docs-as-Code) en conditions de mobilité et de réseau instables.
+**M-CORE** (Mobile-first Continuity & Offline Rendering Engine) brise la dépendance aux infrastructures fixes. Nous transformons la contrainte (instabilité énergétique/réseau) en opportunité technologique en normalisant la production technique de haute fidélité en mode **Offline-First**.
 
----
+> **Note aux contributeurs :** L'adhésion aux standards définis ici n'est pas optionnelle. Elle garantit la portabilité universelle (ARM64/x86\_64) et la pérennité du savoir.
 
-## ⚖️ Gouvernance de l'Organisation
+-----
 
-### 1. Structure des Dépôts
+## ⚖️ Stratégie de l'Écosystème
 
-Chaque dépôt de l'organisation a un rôle spécifique pour garantir la modularité :
+### 1\. Architecture des Dépôts (Meta-Sourcing)
 
-* **`spec`** : Standard d'édition et règles de validation (Source de vérité).
-* **`engine`** : Cœur de rendu haute performance (Rust/Go).
-* **`templates`** : Catalogue de thèmes industriels (Zola/Typst).
-* **`mobile`** : Interfaces clients et PWA.
-* **`showcase`** : Vitrine des déploiements et démonstrations commerciales.
+L'écosystème est segmenté en unités fonctionnelles pour maximiser la maintenance :
 
-### 2. Stratégie de Branchement (GitFlow Hybride)
-
-Pour garantir la stabilité de la production (`main`), nous appliquons strictement le flux suivant :
-
-* **`feat/`**, **`fix/`**, **`docs/`** : Branches éphémères pour le développement.
-* **`drift`** : Branche d'intégration et de pré-production (Zone de test).
-* **`main`** : Branche de production verrouillée. **Le push direct est proscrit.**
-
----
-
-## 🛠️ Standards de Qualité (M-CORE STD)
-
-Tout dépôt au sein de cette organisation doit se conformer aux exigences suivantes :
-
-| Domaine | Outil de Validation | Standard |
+| Dépôt | Rôle | Essence |
 | :--- | :--- | :--- |
-| **Structure Markdown** | `markdownlint-cli2` | Conformité aux règles `.markdownlint.yaml` du repo `spec`. |
-| **Style & Sémantique** | `Vale` | Ton pédagogique et professionnel conforme au guide de style. |
-| **Intégrité** | `Lychee` | Zéro lien mort (Broken Links) toléré. |
-| **Typographie** | `Typst` | Rendu PDF de précision mathématique et industrielle. |
+| **`m-core`** | **Conteneur Parent** | Orchestration globale et point d'entrée unique. |
+| **`spec`** | **Source de Vérité** | Règles YAML, schémas de validation et d'édition. |
+| **`engine`** | **Noyau de Rendu** | Logique de transformation haute performance (Rust/Go). |
+| **`workspace`** | **Zone de Production** | Contenu métier, notes techniques et assets. |
+| **`.github`** | **Gouvernance** | Profil d'organisation, Workflows partagés et SDLC. |
 
----
+### 2\. Standard d'Édition : M-SPEC
 
-## 🤝 Contribution & Éthique
+Pour garantir un rendu cross-plateforme sans erreur, chaque fichier `.md` doit respecter :
 
-L'ingénierie chez M-Core repose sur le passage de "l'artisanat à la rigueur".
+* **Frontmatter YAML strict** (Validation via `markdownlint-cli2`).
+* **Encodage UTF-8 sans BOM**.
+* **Chemins relatifs uniquement** (Interdiction des chemins absolus pour la portabilité Android/Linux/Windows).
 
-1. **Qualité par Design** : On ne code pas pour que "ça marche", on code pour que ce soit maintenable.
-2. **Documentation as Code** : La documentation est produite en même temps que le code, jamais après.
-3. **Conventional Commits** : Les messages de commit doivent suivre la norme (ex: `feat: add new typst template`).
+-----
 
----
+## 🛠️ Protocole de Développement (SDLC)
 
-## 📜 Licence
+### 1\. Workflow de Contribution
 
-Sauf mention contraire explicite dans un dépôt spécifique, l'ensemble des travaux de l'organisation **M-Core Engineering** est distribué sous la licence **Apache-2.0**.
+Nous appliquons un **GitFlow Hybride** rigoureux :
 
----
-*Fait avec rigueur à Dschang, 2026.*
+1. **Branche `feat/` ou `fix/`** : Développement isolé.
+2. **Pull Request (PR)** : Déclenchement automatique des tests de linting (`Vale`, `Markdownlint`).
+3. **Branche `drift`** : Zone d'intégration continue (Pré-production).
+4. **Branche `main`** : Production stable. **Protection de branche activée (Push direct interdit).**
+
+### 2\. Standards de Qualité (Definition of Done)
+
+Une tâche est considérée comme "Terminée" uniquement si :
+
+* [ ] Le code/document passe le linter local (`task check`).
+* [ ] Les messages de commit suivent la convention **Conventional Commits**.
+* [ ] La documentation associée a été mise à jour simultanément.
+* [ ] Le rendu PDF (Typst) et Web (Zola) est exempt d'artefacts visuels.
+
+-----
+
+## 🔐 Sécurité & Conformité
+
+* **Zéro Secret** : Utilisation obligatoire de `.env.example` et scan `Gitleaks` en pré-commit.
+* **Auditabilité** : Chaque déploiement sur Cloudflare Pages doit être lié à un SHA de commit vérifié.
+* **Indépendance logicielle** : Priorité aux binaires statiques pour éviter les vecteurs d'attaque par dépendances dynamiques.
+
+-----
+
+## 🌍 Accessibilité & Marketing Technique
+
+M-CORE n'est pas seulement un outil, c'est un produit. Nos livrables (PDF/Web) sont conçus pour être monétisables auprès d'entreprises locales et d'entités éducatives, grâce à une mise en page de précision industrielle.
+
+-----
+
+## 🔗 Liens Utiles
+
+* 🏠 **[Page d'accueil M-CORE](https://github.com/M-Core-Engineering/m-core)** : Point d'entrée technique et installation.
+* 📚 **[Documentation Spécifique](https://github.com/M-Core-Engineering/spec)** : Détails des grammaires de validation.
