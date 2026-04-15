@@ -1,0 +1,5 @@
+blank_issues_enabled: false # Interdit les issues vides sans template
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com
+    about: Pour les questions générales ou le brainstorming.

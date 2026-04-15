@@ -1,78 +1,92 @@
 # 🛡️ M-CORE Engineering | Governance & Standards
 
-**Le socle de rigueur industrielle pour l'écosystème M-CORE.** *Définition des processus, standards de qualité et protocoles de cycle de vie (SDLC).*
+**Le socle de rigueur industrielle pour l'écosystème M-CORE.**  
+*Opérationnalisation des processus, standards de qualité et protocoles SDLC.*
 
------
+---
 
-## 🎯 Vision & Mission
+## 📖 Sommaire
 
-**M-CORE** (Mobile-first Continuity & Offline Rendering Engine) brise la dépendance aux infrastructures fixes. Nous transformons la contrainte (instabilité énergétique/réseau) en opportunité technologique en normalisant la production technique de haute fidélité en mode **Offline-First**.
+- [🛡️ M-CORE Engineering | Governance \& Standards](#️-m-core-engineering--governance--standards)
+  - [📖 Sommaire](#-sommaire)
+  - [🎯 Vision \& Éthique](#-vision--éthique)
+  - [⚖️ Stratégie de l'Écosystème (Meta-Sourcing)](#️-stratégie-de-lécosystème-meta-sourcing)
+  - [🛠️ Protocole de Développement (SDLC)](#️-protocole-de-développement-sdlc)
+    - [1. Stratégie de Branchement \& Versioning](#1-stratégie-de-branchement--versioning)
+    - [2. Definition of Done (DoD)](#2-definition-of-done-dod)
+  - [🔐 Sécurité \& Intégrité](#-sécurité--intégrité)
+  - [🌍 Communication \& Onboarding](#-communication--onboarding)
+  - [🔗 Liens de Gouvernance](#-liens-de-gouvernance)
 
-> **Note aux contributeurs :** L'adhésion aux standards définis ici n'est pas optionnelle. Elle garantit la portabilité universelle (ARM64/x86\_64) et la pérennité du savoir.
+---
 
------
+## 🎯 Vision & Éthique
 
-## ⚖️ Stratégie de l'Écosystème
+M-CORE normalise la production technique de haute fidélité en mode **Offline-First**. Nous considérons la documentation et l'automatisation comme des actifs de production au même titre que le code source.
 
-### 1\. Architecture des Dépôts (Meta-Sourcing)
+> **Règle d'Or :** Tout ce qui n'est pas automatisé ou documenté n'existe pas.
 
-L'écosystème est segmenté en unités fonctionnelles pour maximiser la maintenance :
+---
 
-| Dépôt | Rôle | Essence |
-| :--- | :--- | :--- |
-| **`m-core`** | **Conteneur Parent** | Orchestration globale et point d'entrée unique. |
-| **`spec`** | **Source de Vérité** | Règles YAML, schémas de validation et d'édition. |
-| **`engine`** | **Noyau de Rendu** | Logique de transformation haute performance (Rust/Go). |
-| **`workspace`** | **Zone de Production** | Contenu métier, notes techniques et assets. |
-| **`.github`** | **Gouvernance** | Profil d'organisation, Workflows partagés et SDLC. |
+## ⚖️ Stratégie de l'Écosystème (Meta-Sourcing)
 
-### 2\. Standard d'Édition : M-SPEC
+Nous appliquons une séparation stricte des préoccupations (SoC) par dépôt pour garantir la modularité et la sécurité de l'infrastructure :
 
-Pour garantir un rendu cross-plateforme sans erreur, chaque fichier `.md` doit respecter :
+| Dépôt | Rôle Stratégique | Essence | Visibilité |
+| --- | --- | --- | --- |
+| m-core | Orchestrateur & Entry-point | Principal | [PUBLIC] |
+| .task | Automation Logic (CI/CD Locale) | Core Tooling | [PUBLIC] |
+| .github | Gouvernance & SDLC | Profile | [PUBLIC] |
+| spec | Schémas de données & Contrats | Governance | [PUBLIC] |
+| engine | Logique métier (Go/Rust) | Core Engine | [PRIVATE] |
+| doc | Business Intelligence & Stratégie | Documentation | [PRIVATE] |
+| mobile | Portabilité & Agilité | Application | [PRIVATE] |m  
+| templates | Design & Présentation | Template | [PRIVATE] |
+| showcase | Vitrine & Espace de publication | Espace Web | [PRIVATE] |
 
-* **Frontmatter YAML strict** (Validation via `markdownlint-cli2`).
-* **Encodage UTF-8 sans BOM**.
-* **Chemins relatifs uniquement** (Interdiction des chemins absolus pour la portabilité Android/Linux/Windows).
-
------
+---
 
 ## 🛠️ Protocole de Développement (SDLC)
 
-### 1\. Workflow de Contribution
+### 1. Stratégie de Branchement & Versioning
 
-Nous appliquons un **GitFlow Hybride** rigoureux :
+* **Branches :** Workflow `main` (stable) < `drift` (intégration) < `feat/` (développement).
+* **Versioning :** Application stricte du [Semantic Versioning (SemVer)](https://semver.org).
+* **Commits :** Respect impératif de la spécification [Conventional Commits](https://conventionalcommits.org).
+  
+### 2. Definition of Done (DoD)
 
-1. **Branche `feat/` ou `fix/`** : Développement isolé.
-2. **Pull Request (PR)** : Déclenchement automatique des tests de linting (`Vale`, `Markdownlint`).
-3. **Branche `drift`** : Zone d'intégration continue (Pré-production).
-4. **Branche `main`** : Production stable. **Protection de branche activée (Push direct interdit).**
+Une PR ne peut être fusionnée que si :
 
-### 2\. Standards de Qualité (Definition of Done)
+* `task check` est validé (Linting & Static Analysis).
+* Les **tests unitaires** (si applicables) sont au vert.
+* La documentation (`/docs`) a été mise à jour.
+* Le "**Sign-off**" d'au moins un **Code Owner** est obtenu.
 
-Une tâche est considérée comme "Terminée" uniquement si :
+---
 
-* [ ] Le code/document passe le linter local (`task check`).
-* [ ] Les messages de commit suivent la convention **Conventional Commits**.
-* [ ] La documentation associée a été mise à jour simultanément.
-* [ ] Le rendu PDF (Typst) et Web (Zola) est exempt d'artefacts visuels.
+## 🔐 Sécurité & Intégrité
 
------
+* **Secret Scanning :** `Gitleaks` est activé sur l'organisation. Tout secret détecté entraîne l'invalidation immédiate de la PR.
+* **Dependency Management :** Priorité aux dépendances statiques. Toute nouvelle dépendance doit être justifiée dans la PR.
+* **Audit :** Les logs de déploiement sont immuables et liés à l'empreinte Git (commit SHA).
 
-## 🔐 Sécurité & Conformité
+---
 
-* **Zéro Secret** : Utilisation obligatoire de `.env.example` et scan `Gitleaks` en pré-commit.
-* **Auditabilité** : Chaque déploiement sur Cloudflare Pages doit être lié à un SHA de commit vérifié.
-* **Indépendance logicielle** : Priorité aux binaires statiques pour éviter les vecteurs d'attaque par dépendances dynamiques.
+## 🌍 Communication & Onboarding
 
------
+* **Questions :** Utilisez l'onglet [Discussions](https://github.com) pour les questions non techniques.
+* **Bugs :** Ouvrez une [Issue](https://github.com) avec le template dédié.
+* **Code of Conduct :** Nous appliquons le [Contributor Covenant](https://contributor-covenant.org).
 
-## 🌍 Accessibilité & Marketing Technique
+---
 
-M-CORE n'est pas seulement un outil, c'est un produit. Nos livrables (PDF/Web) sont conçus pour être monétisables auprès d'entreprises locales et d'entités éducatives, grâce à une mise en page de précision industrielle.
+## 🔗 Liens de Gouvernance
 
------
+* [Guide de Contribution complet](./CONTRIBUTING.md)
+* [Politique de Sécurité (Vulnerability Disclosure)](./SECURITY.md)
+* [Templates d'Organisation](./workflow-templates)
 
-## 🔗 Liens Utiles
+---
 
-* 🏠 **[Page d'accueil M-CORE](https://github.com/M-Core-Engineering/m-core)** : Point d'entrée technique et installation.
-* 📚 **[Documentation Spécifique](https://github.com/M-Core-Engineering/spec)** : Détails des grammaires de validation.
+© 2024 **M-CORE Engineering** - *L'ingénierie résiliente au service de la continuité.*
