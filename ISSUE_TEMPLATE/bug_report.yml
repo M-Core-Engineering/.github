@@ -1,0 +1,32 @@
+name: "🐞 Bug Report"
+description: Signaler une erreur ou un comportement inattendu.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de nous aider à améliorer **M-CORE** !
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du Bug
+      placeholder: Que s'est-il passé ?
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Système d'Exploitation
+      options:
+        - Android (Termux)
+        - Windows
+        - Linux
+        - macOS
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs ou Sortie Console
+      description: Copiez ici la sortie de la commande `task`.
+      render: shell
